@@ -1,8 +1,15 @@
 {
-    "manifest_version": 3,
+    "manifest_version": 2,
     "name": "Site Blocker",
     "version": "1.0",
-    "permissions": ["webRequest", "webRequestBlocking", "tabs"],
-    "host_permissions": ["*://*/*"],
-    "action": "default_title"
+    "permissions": ["webRequest", "webRequestBlocking", "<all_urls>"],
+    "background": {
+        "scripts": ["background.js"]
+    },
+    "web_accessible_resources": ["redirect.html"],
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "siteblocker@example.com"
+        }
+    }
 }

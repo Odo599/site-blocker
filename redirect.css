@@ -1,0 +1,10 @@
+.centre {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.centre-inner {
+    justify-content: center;
+}
