@@ -1,10 +1,39 @@
 .centre {
-    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
+.h-screen {
+    height: 100vh;
+}
+
 .centre-inner {
     justify-content: center;
+}
+
+.github-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.github-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #24292f;
+    font-weight: 500;
+    font-size: 1.1em;
+    gap: 8px;
+    transition: color 0.2s;
+}
+
+.github-link:hover {
+    color: #0366d6;
+}
+
+.github-icon {
+    width: 24px;
+    height: 24px;
 }
