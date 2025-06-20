@@ -7,9 +7,8 @@
         "scripts": ["background.js"]
     },
     "web_accessible_resources": ["redirect.html"],
-    "browser_specific_settings": {
-        "gecko": {
-            "id": "siteblocker@example.com"
-        }
+    "browser_action": {
+        "default_popup": "popup.html",
+        "default_title": "Site Blocker"
     }
 }
