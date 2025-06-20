@@ -10,7 +10,3 @@ function readBlockedSites() {
 function writeBlockedSites(sites) {
     localStorage.setItem("blockedSites", JSON.stringify(sites));
 }
-
-function clearBlockedSites() {
-    writeBlockedSites([]);
-}
