@@ -1,6 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Site Blocker",
+    "description": "A simple website blocker to direct you to a page when you open a blocked page.",
     "version": "1.0",
     "permissions": ["webRequest", "webRequestBlocking", "<all_urls>"],
     "background": {
