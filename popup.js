@@ -3,9 +3,6 @@ const addSiteButton = document.getElementById("add-site-button");
 
 const sitesList = document.getElementById("sites-list");
 
-console.log(addSiteButton);
-console.log(addSiteInput);
-
 function readBlockedSites() {
     const sites = localStorage.getItem("blockedSites");
     if (sites === null) {
