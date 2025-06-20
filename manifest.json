@@ -5,7 +5,7 @@
     "version": "1.0",
     "permissions": ["webRequest", "webRequestBlocking", "<all_urls>"],
     "background": {
-        "scripts": ["background.js"]
+        "scripts": ["storageApi.js", "background.js"]
     },
     "web_accessible_resources": ["redirect.html"],
     "browser_action": {

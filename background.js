@@ -1,12 +1,3 @@
-function readBlockedSites() {
-    const sites = localStorage.getItem("blockedSites");
-    if (sites === null) {
-        return [];
-    } else {
-        return JSON.parse(sites);
-    }
-}
-
 browser.webRequest.onBeforeRequest.addListener(
     function (details) {
         const url = new URL(details.url);
