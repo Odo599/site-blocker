@@ -9,10 +9,16 @@
         <h3>Edit Blocked Sites</h3>
         <div class="add-site-row">
             <input type="text" id="add-site-input" />
-            <button id="add-site-button"></button>
+            <button id="add-site-whitelist-button" class="add-site-button">
+                Whitelist
+            </button>
+            <button id="add-site-blacklist-button" class="add-site-button">
+                Blacklist
+            </button>
         </div>
 
-        <div id="sites-list"></div>
+        <div id="blacklist-sites-list"></div>
+        <div id="whitelist-sites-list"></div>
 
         <script src="storageApi.js"></script>
         <script src="popup.js"></script>

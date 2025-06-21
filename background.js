@@ -4,15 +4,29 @@ browser.webRequest.onBeforeRequest.addListener(
         var blockedSites = readBlockedSites();
 
         hostname = url.hostname;
+        href = url.href;
+
         if (hostname.slice(0, 4) === "www.") {
             hostname = hostname.slice(4);
         }
 
-        // Check for exact domain match
+        if (href.slice(0, 8) === "https://") {
+            href = href.slice(8);
+        }
+
+        if (href.slice(0, 7) === "http://") {
+            href = href.slice(7);
+        }
+
+        console.log(href)
+
         if (blockedSites.some((domain) => hostname === domain)) {
-            return {
-                redirectUrl: browser.runtime.getURL("redirect.html"),
-            };
+            const whitelistSites = readWhitelistedSites();
+            if (!whitelistSites.some((domain) => href === domain)) {
+                return {
+                    redirectUrl: browser.runtime.getURL("redirect.html"),
+                };
+            }
         }
     },
     { urls: ["<all_urls>"] },
