@@ -1,0 +1,21 @@
+/* themes.css */
+:root.light-theme {
+    --background: #fff;
+    --foreground: #222;
+    --primary: #1976d2;
+    --secondary: #e3e3e3;
+    --accent: #ff9800;
+    --border: #ccc;
+    --error: #d32f2f;
+    --success: #388e3c;
+}
+:root.dark-theme {
+    --background: #181a1b;
+    --foreground: #f5f5f5;
+    --primary: #90caf9;
+    --secondary: #23272f;
+    --accent: #ffb74d;
+    --border: #333;
+    --error: #ef5350;
+    --success: #81c784;
+}
