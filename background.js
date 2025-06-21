@@ -18,14 +18,14 @@ browser.webRequest.onBeforeRequest.addListener(
             href = href.slice(7);
         }
 
-        console.log(href)
-
-        if (blockedSites.some((domain) => hostname === domain)) {
-            const whitelistSites = readWhitelistedSites();
-            if (!whitelistSites.some((domain) => href === domain)) {
-                return {
-                    redirectUrl: browser.runtime.getURL("redirect.html"),
-                };
+        if (localStorage.getItem("disabled") != "true") {
+            if (blockedSites.some((domain) => hostname === domain)) {
+                const whitelistSites = readWhitelistedSites();
+                if (!whitelistSites.some((domain) => href === domain)) {
+                    return {
+                        redirectUrl: browser.runtime.getURL("redirect.html"),
+                    };
+                }
             }
         }
     },
