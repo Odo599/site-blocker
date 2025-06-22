@@ -120,6 +120,25 @@ h3 {
     background: #c0392b;
 }
 
+#floating-button {
+    height: 40px;
+    width: 40px;
+    position: fixed;
+    top: 10px;
+    left: calc(100% - 50px);
+    border-radius: 100%;
+    border: 2px solid var(--border);
+    box-shadow: 0 2px 8px var(--shadow);
+}
+
+#settings-svg {
+    margin: 2.5px;
+    height: 35px;
+    width: 35px;
+    border-radius: 100%;
+    filter: var(--foreground-filter);
+}
+
 input[type="text"],
 input[type="text"]:focus,
 input[type="text"]:active,

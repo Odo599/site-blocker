@@ -109,11 +109,9 @@ input[type="text"] {
     transition: border 0.2s;
 }
 
-/* Settings: Make input text black in light theme */
 :root.light-theme input[type="text"] {
-    color: #111 !important;
-    -webkit-text-fill-color: #111 !important;
-    caret-color: #111 !important;
+    color: #111;
+    caret-color: #111;
 }
 
 input[type="text"]:focus {
