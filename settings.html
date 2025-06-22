@@ -29,9 +29,7 @@
                 </div>
                 <div class="form-group">
                     <label for="tempdisable">
-                        <span class="setting-name"
-                            >Temporarily Disable Blocking</span
-                        >
+                        <span class="setting-name">Pause Blocking</span>
                         <span>
                             <input
                                 type="checkbox"
@@ -44,6 +42,18 @@
                             </span>
                         </span>
                     </label>
+                </div>
+                <div class="form-group">
+                    <label for="timeout">
+                        <span class="setting-name">Re-enable in</span>
+                        <input
+                            type="text"
+                            id="timeout"
+                            name="timeout"
+                            placeholder="minutes"
+                        />
+                    </label>
+                    <div id="timeout-status"></div>
                 </div>
                 <button type="submit">Save Settings</button>
             </form>

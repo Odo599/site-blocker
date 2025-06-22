@@ -18,7 +18,10 @@ browser.webRequest.onBeforeRequest.addListener(
             href = href.slice(7);
         }
 
-        if (localStorage.getItem("disabled") != "true") {
+        if (
+            localStorage.getItem("disabled") != "true" &&
+            JSON.parse(localStorage.getItem("timeoutEnd")) < Date.now()
+        ) {
             if (blockedSites.some((domain) => hostname === domain)) {
                 const whitelistSites = readWhitelistedSites();
                 if (!whitelistSites.some((domain) => href === domain)) {

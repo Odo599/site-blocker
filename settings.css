@@ -15,11 +15,20 @@ body {
     box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
 }
 
+.setting-name {
+    margin-right: 10px;
+}
+
 h1 {
     font-size: 1.7em;
     margin-bottom: 24px;
     color: var(--foreground);
     text-align: center;
+}
+
+#timeout-status {
+    color: var(--foreground);
+    text-align: right;
 }
 
 .form-group {
@@ -91,7 +100,7 @@ input[type="checkbox"]:checked + .slider .slider-thumb {
 }
 
 input[type="text"] {
-    width: 100%;
+    width: 50%;
     padding: 8px 10px;
     border: 1px solid var(--border);
     border-radius: 5px;
