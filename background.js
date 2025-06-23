@@ -2,12 +2,18 @@ browser.webRequest.onBeforeRequest.addListener(
     function (details) {
         const url = new URL(details.url);
         var blockedSites = readBlockedSites();
+        const whitelistSites = readWhitelistedSites();
 
         hostname = url.hostname;
         href = url.href;
 
-        if (hostname.slice(0, 4) === "www.") {
-            hostname = hostname.slice(4);
+        function testRegex(domain, url) {
+            const escaped = domain.replace(/[-/\\^$+?.()|[\]{}]/g, "\\$&");
+            const wildcarded = escaped.replace(/\*/g, ".*");
+            const anchored = "^" + wildcarded + "$";
+            const regex = new RegExp(anchored, "i");
+            console.log(regex, url);
+            return regex.test(url);
         }
 
         if (href.slice(0, 8) === "https://") {
@@ -18,20 +24,38 @@ browser.webRequest.onBeforeRequest.addListener(
             href = href.slice(7);
         }
 
+        if (href.slice(0, 4) === "www.") {
+            href = href.slice(4);
+        }
+
+        if (href.slice(href.length - 1) === "/") {
+            href = href.slice(0, href.length - 1);
+        }
+
+        console.log("Checking URL:", href);
+
+        const matchesBlocked = blockedSites.some((domain) =>
+            testRegex(domain, href)
+        );
+        const matchesWhitelisted = whitelistSites.some((domain) =>
+            testRegex(domain, href)
+        );
+
         if (
+            // Check if still enabled
             localStorage.getItem("disabled") != "true" &&
-            JSON.parse(localStorage.getItem("timeoutEnd")) < Date.now()
+            // Check if timeout is active
+            JSON.parse(localStorage.getItem("timeoutEnd")) < Date.now() &&
+            // Check if site is blocked
+            matchesBlocked &&
+            // Check if site is not whitelisted
+            !matchesWhitelisted
         ) {
-            if (blockedSites.some((domain) => hostname === domain)) {
-                const whitelistSites = readWhitelistedSites();
-                if (!whitelistSites.some((domain) => href === domain)) {
-                    return {
-                        redirectUrl: browser.runtime.getURL("redirect.html"),
-                    };
-                }
-            }
+            return {
+                redirectUrl: browser.runtime.getURL("redirect.html"),
+            };
         }
     },
-    { urls: ["<all_urls>"] },
+    { urls: ["<all_urls>"], types: ["main_frame"] },
     ["blocking"]
 );

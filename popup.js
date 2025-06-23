@@ -143,6 +143,14 @@ document.addEventListener("DOMContentLoaded", function () {
     addWhitelistSiteButton.addEventListener("click", onWhitelistAddButtonClick);
 });
 
+const accordionHeader = document.querySelector(".accordion-header");
+const accordion = document.querySelector(".accordion");
+// Accordion functionality
+
+accordionHeader.addEventListener("click", () => {
+    accordion.classList.toggle("open");
+});
+
 // Init
 updateBlacklist();
 updateWhitelist();

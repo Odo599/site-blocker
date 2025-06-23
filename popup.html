@@ -24,6 +24,27 @@
         <div id="blacklist-sites-list"></div>
         <div id="whitelist-sites-list"></div>
 
+        <div class="accordion">
+            <button class="accordion-header">Help</button>
+            <div class="accordion-content">
+                <p><strong>How to Block Websites</strong></p>
+                <p>Use simple patterns to block websites.</p>
+                <ul>
+                    <li><code>example.com</code> → blocks exactly example.com</li>
+                    <li><code>*.example.com</code> → blocks all subdomains like www.example.com, blog.example.com</li>
+                    <li><code>*example.com</code> → blocks anything ending with example.com</li>
+                    <li><code>example.*</code> → blocks all top-level domains like example.com, example.org</li>
+                    <li><code>example.com*</code> → blocks anything on example.com like example.com/something and also matches example.com</li>
+                </ul>
+                <p><strong>Special Rules:</strong></p>
+                <ul>
+                    <li>Use <code>*</code> to mean "anything"</li>
+                    <li>No need to type <code>http://</code> or <code>https://</code></li>
+                    <li>Matching is case-insensitive</li>
+                </ul>
+            </div>
+        </div>
+
         <script src="storageApi.js"></script>
         <script src="popup.js"></script>
         <script src="themes.js"></script>
