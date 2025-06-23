@@ -148,7 +148,14 @@ const accordion = document.querySelector(".accordion");
 // Accordion functionality
 
 accordionHeader.addEventListener("click", () => {
-    accordion.classList.toggle("open");
+    const content = accordion.querySelector(".accordion-content");
+    if (accordion.classList.contains("open")) {
+        content.style.maxHeight = null;
+        accordion.classList.remove("open");
+    } else {
+        content.style.maxHeight = content.scrollHeight + "px";
+        accordion.classList.add("open");
+    }
 });
 
 // Init
