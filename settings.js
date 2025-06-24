@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const toggles = [
         { id: "darkmode", key: "darkmode" },
         { id: "tempdisable", key: "disabled" },
+        { id: "advancedRegex", key: "advancedRegex" },
     ];
     const statusDiv = document.getElementById("status");
     const form = document.getElementById("settings-form");

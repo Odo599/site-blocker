@@ -4,16 +4,25 @@ browser.webRequest.onBeforeRequest.addListener(
         var blockedSites = readBlockedSites();
         const whitelistSites = readWhitelistedSites();
 
+        const advancedRegex = localStorage.getItem("advancedRegex") === "true";
+
         hostname = url.hostname;
         href = url.href;
 
         function testRegex(domain, url) {
+            var regex = RegExp(domain, "i");
+            if (!advancedRegex) {
+                var regex = convertToRegex(domain);
+            }
+            console.log(advancedRegex, regex, url);
+            return regex.test(url);
+        }
+
+        function convertToRegex(domain) {
             const escaped = domain.replace(/[-/\\^$+?.()|[\]{}]/g, "\\$&");
             const wildcarded = escaped.replace(/\*/g, ".*");
             const anchored = "^" + wildcarded + "$";
-            const regex = new RegExp(anchored, "i");
-            console.log(regex, url);
-            return regex.test(url);
+            return new RegExp(anchored, "i");
         }
 
         if (href.slice(0, 8) === "https://") {
@@ -31,8 +40,6 @@ browser.webRequest.onBeforeRequest.addListener(
         if (href.slice(href.length - 1) === "/") {
             href = href.slice(0, href.length - 1);
         }
-
-        console.log("Checking URL:", href);
 
         const matchesBlocked = blockedSites.some((domain) =>
             testRegex(domain, href)
