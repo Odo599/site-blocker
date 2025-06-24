@@ -1,3 +1,4 @@
+// Website Blocking Logic
 browser.webRequest.onBeforeRequest.addListener(
     function (details) {
         const url = new URL(details.url);
@@ -25,21 +26,7 @@ browser.webRequest.onBeforeRequest.addListener(
             return new RegExp(anchored, "i");
         }
 
-        if (href.slice(0, 8) === "https://") {
-            href = href.slice(8);
-        }
-
-        if (href.slice(0, 7) === "http://") {
-            href = href.slice(7);
-        }
-
-        if (href.slice(0, 4) === "www.") {
-            href = href.slice(4);
-        }
-
-        if (href.slice(href.length - 1) === "/") {
-            href = href.slice(0, href.length - 1);
-        }
+        href = clearUrl(href);
 
         const matchesBlocked = blockedSites.some((domain) =>
             testRegex(domain, href)
@@ -77,3 +64,49 @@ browser.webRequest.onBeforeRequest.addListener(
     { urls: ["<all_urls>"], types: ["main_frame"] },
     ["blocking"]
 );
+
+function addSiteBlacklist(site) {
+    let sites = readBlockedSites();
+    if (!sites.includes(site)) {
+        sites.push(site);
+        writeBlockedSites(sites);
+    }
+}
+
+// Remove https://*, http://*, www.* & */ from url
+function clearUrl(url) {
+    if (url.slice(0, 8) === "https://") {
+        url = url.slice(8);
+    }
+
+    if (url.slice(0, 7) === "http://") {
+        url = url.slice(7);
+    }
+
+    if (url.slice(0, 4) === "www.") {
+        url = url.slice(4);
+    }
+
+    if (url.slice(url.length - 1) === "/") {
+        url = url.slice(0, url.length - 1);
+    }
+
+    return url;
+}
+
+// Context Menu
+browser.contextMenus.create({
+    id: "block-current",
+    title: "Block Current Webpage",
+});
+
+browser.contextMenus.onClicked.addListener((info, tab) => {
+    if (info.menuItemId === "block-current") {
+        let url = clearUrl(tab.url);
+        if (JSON.parse(localStorage.getItem("advancedRegex"))) {
+            url = "^" + url + "$";
+        }
+        console.log("Blocking from context menu:", url);
+        addSiteBlacklist(url);
+    }
+});
