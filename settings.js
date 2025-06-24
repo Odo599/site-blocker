@@ -3,7 +3,9 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "darkmode", key: "darkmode" },
         { id: "tempdisable", key: "disabled" },
         { id: "advancedRegex", key: "advancedRegex" },
+        { id: "redirectPage", key: "customRedirectEnabled" },
     ];
+    const values = [{ id: "customPageHref", key: "customPageLink" }];
     const statusDiv = document.getElementById("status");
     const form = document.getElementById("settings-form");
 
@@ -14,12 +16,31 @@ document.addEventListener("DOMContentLoaded", () => {
             const value = localStorage.getItem(t.key);
             el.checked = value === "true";
         });
+        values.forEach((t) => {
+            const el = document.getElementById(t.id);
+            const value = localStorage.getItem(t.key);
+            el.value = value;
+        });
     }
 
     function saveSettings() {
         toggles.forEach((t) => {
             const el = document.getElementById(t.id);
             localStorage.setItem(t.key, el.checked);
+
+            if (t.id === "redirectPage") {
+                const hrefContainer =
+                    document.getElementById("custom-page-group");
+                if (el.checked) {
+                    hrefContainer.style.display = "";
+                } else {
+                    hrefContainer.style.display = "none";
+                }
+            }
+        });
+        values.forEach((t) => {
+            const el = document.getElementById(t.id);
+            localStorage.setItem(t.key, el.value);
         });
         updateTheme();
     }

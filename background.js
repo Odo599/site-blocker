@@ -58,8 +58,19 @@ browser.webRequest.onBeforeRequest.addListener(
             // Check if site is not whitelisted
             !matchesWhitelisted
         ) {
+            const customRedirect = JSON.parse(
+                localStorage.getItem("customRedirectEnabled")
+            );
+            let redirectHref;
+            if (customRedirect) {
+                redirectHref =
+                    "https://" + localStorage.getItem("customPageLink");
+            } else {
+                redirectHref = browser.runtime.getURL("redirect.html");
+            }
+            console.log(redirectHref);
             return {
-                redirectUrl: browser.runtime.getURL("redirect.html"),
+                redirectUrl: redirectHref,
             };
         }
     },

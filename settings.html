@@ -11,6 +11,7 @@
         <div class="settings-container">
             <h1>Settings</h1>
             <form id="settings-form">
+                <!-- Dark Mode -->
                 <div class="form-group">
                     <label for="darkmode">
                         <span class="setting-name">Dark Mode</span>
@@ -27,6 +28,7 @@
                         </span>
                     </label>
                 </div>
+                <!-- Disable Blocking -->
                 <div class="form-group">
                     <label for="tempdisable">
                         <span class="setting-name">Pause Blocking</span>
@@ -43,6 +45,7 @@
                         </span>
                     </label>
                 </div>
+                <!-- Advanced Regex Checking -->
                 <div class="form-group">
                     <label for="advancedRegex">
                         <span class="settings-name">Full Regex Checking</span>
@@ -59,6 +62,36 @@
                         </span>
                     </label>
                 </div>
+                <!-- Redirect to page type -->
+                <div class="form-group">
+                    <label for="redirectPage">
+                        <span class="setting-name">Custom Page</span>
+                        <span>
+                            <input
+                                type="checkbox"
+                                id="redirectPage"
+                                name="redirectPage"
+                            />
+                            <span class="slider">
+                                <span class="slider-track"></span>
+                                <span class="slider-thumb"></span>
+                            </span>
+                        </span>
+                    </label>
+                </div>
+                <!-- Custom page href -->
+                <div class="form-group" id="custom-page-group">
+                    <label for="custom-page">
+                        <span class="setting-name">Page URL</span>
+                        <input
+                            type="text"
+                            id="customPageHref"
+                            name="customPageHref"
+                            placeholder="Enter a url"
+                        />
+                    </label>
+                </div>
+                <!-- Re-enable in x minutes feature -->
                 <div class="form-group">
                     <label for="timeout">
                         <span class="setting-name">Re-enable in</span>
