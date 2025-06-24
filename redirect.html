@@ -2,6 +2,7 @@
 <html>
     <head>
         <title>Blocked Page</title>
+        <link rel="stylesheet" href="themes.css" />
         <link rel="stylesheet" href="redirect.css" />
     </head>
     <body>
@@ -17,14 +18,21 @@
                         class="github-link"
                     >
                         <img
-                            src="../assets/github-mark.png"
+                            src="./assets/github-mark.png"
                             alt="GitHub"
-                            class="github-icon"
+                            class="github-icon light-only"
+                        />
+                        <img
+                            src="./assets/github-mark-white.png"
+                            alt="GitHub"
+                            class="github-icon dark-only"
                         />
                         <span>Github</span>
                     </a>
                 </div>
             </div>
         </span>
+        <script src="themes.js"></script>
+        <script src="redirect.js"></script>
     </body>
 </html>
