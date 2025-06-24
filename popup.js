@@ -158,6 +158,14 @@ accordionHeader.addEventListener("click", () => {
     }
 });
 
+function updateRegexWarning() {
+    const regexWarning = document.querySelector(".advanced-regex-warning");
+    if (localStorage.getItem("advancedRegex") === "false") {
+        regexWarning.style.display = "none";
+    }
+}
+
 // Init
 updateBlacklist();
 updateWhitelist();
+updateRegexWarning();
