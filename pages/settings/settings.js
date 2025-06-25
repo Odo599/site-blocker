@@ -9,6 +9,24 @@ document.addEventListener("DOMContentLoaded", () => {
     const statusDiv = document.getElementById("status");
     const form = document.getElementById("settings-form");
 
+    const exportSettingsButton = document.getElementById("export-settings");
+    const importSettingsButton = document.getElementById("import-settings");
+
+    // Setup export button click
+    exportSettingsButton.addEventListener("click", () => {
+        downloadFile("blockerSettings.json", JSON.stringify(exportSettings()));
+    });
+
+    // Setup import button click
+    importSettingsButton.addEventListener("click", () => {
+        const file = readFile();
+        file.then((value) => {
+            console.log(value);
+            importSettings(value);
+            loadSettings();
+        });
+    });
+
     // Use localStorage for settings
     function loadSettings() {
         toggles.forEach((t) => {
@@ -46,7 +64,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function updateTimeoutStatus(date) {
-        console.log(date);
         const timeoutStatusDiv = document.getElementById("timeout-status");
         if (date) {
             if (date > Date.now()) {
@@ -70,7 +87,6 @@ document.addEventListener("DOMContentLoaded", () => {
             updateTimeoutStatus(
                 new Date(JSON.parse(localStorage.getItem("timeoutEnd")))
             );
-            console.log(timeout);
             input.value = timeout || "";
         }
     }
