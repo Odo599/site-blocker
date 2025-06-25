@@ -53,7 +53,9 @@ browser.webRequest.onBeforeRequest.addListener(
                 redirectHref =
                     "https://" + localStorage.getItem("customPageLink");
             } else {
-                redirectHref = browser.runtime.getURL("redirect.html");
+                redirectHref = browser.runtime.getURL(
+                    "../pages/redirect/redirect.html"
+                );
             }
             console.log(redirectHref);
             return {
