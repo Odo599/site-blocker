@@ -22,3 +22,5 @@ It's a Firefox add-on that blocks certain websites of your choice. It's quite si
 6. Then under 'Temporary Extensions' press 'Load Temporary Add-on'.
 7. Choose the folder that you downloaded.
 8. It should now be installed.
+
+Unfortunately, due to the way Firefox treats temporary add-ons, this will be unloaded on every firefox restart so you'll have to repeat steps 4-8.
