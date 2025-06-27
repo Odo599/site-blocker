@@ -7,7 +7,6 @@ browser.webRequest.onBeforeRequest.addListener(
 
         const advancedRegex = localStorage.getItem("advancedRegex") === "true";
 
-        hostname = url.hostname;
         href = url.href;
 
         function testRegex(domain, url) {
@@ -24,6 +23,12 @@ browser.webRequest.onBeforeRequest.addListener(
             const wildcarded = escaped.replace(/\*/g, ".*");
             const anchored = "^" + wildcarded + "$";
             return new RegExp(anchored, "i");
+        }
+
+        function logBlock(domain) {
+            let stats = getStats();
+            stats.push([domain, new Date()]);
+            localStorage.setItem("stats", JSON.stringify(stats));
         }
 
         href = clearUrl(href);
@@ -58,6 +63,7 @@ browser.webRequest.onBeforeRequest.addListener(
                 );
             }
             console.log(redirectHref);
+            logBlock(href);
             return {
                 redirectUrl: redirectHref,
             };

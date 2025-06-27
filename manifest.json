@@ -10,7 +10,11 @@
         "contextMenus"
     ],
     "background": {
-        "scripts": ["scripts/storageApi.js", "scripts/background.js"]
+        "scripts": [
+            "scripts/storageApi.js",
+            "scripts/background.js",
+            "scripts/convertStats.js"
+        ]
     },
     "web_accessible_resources": ["pages/redirect/redirect.html"],
     "browser_action": {
