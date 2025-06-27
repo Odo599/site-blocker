@@ -160,7 +160,7 @@ accordionHeader.addEventListener("click", () => {
 
 function updateRegexWarning() {
     const regexWarning = document.querySelector(".advanced-regex-warning");
-    if (localStorage.getItem("advancedRegex") === "false") {
+    if (!JSON.parse(localStorage.getItem("advancedRegex"))) {
         regexWarning.style.display = "none";
     }
 }
