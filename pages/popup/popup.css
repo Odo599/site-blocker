@@ -246,3 +246,89 @@ input[type="text"]:-webkit-autofill {
     border: 2px solid var(--error);
     border-radius: 10px;
 }
+
+/* PASSWORD PROMPT */
+#password-prompt-background {
+    background: var(--background);
+    height: 100vh;
+    width: 100vw;
+    top: 0px;
+    bottom: 0px;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#password-prompt {
+    transition: background 0.3s;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+    border-radius: 10px;
+    padding: 10px;
+}
+
+:root.light-theme #password-prompt {
+    background: var(--background);
+}
+
+:root.dark-theme #password-prompt {
+    background: var(--background);
+}
+
+#password-prompt h2 {
+    color: var(--foreground);
+    text-align: center;
+    margin-bottom: 0px;
+}
+
+#password-prompt p {
+    color: var(--foreground);
+    text-align: center;
+    margin-top: 0px;
+}
+
+input[type="password"] {
+    padding: 8px 10px;
+    margin: 0px 10px;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    font-size: 1em;
+    background: var(--secondary);
+    transition: border 0.2s background 0.3s;
+}
+
+:root.light-theme input[type="password"] {
+    color: #111;
+    caret-color: #111;
+    background: var(--secondary);
+}
+
+:root.dark-theme input[type="password"] {
+    background: var(--secondary);
+    color: var(--foreground);
+}
+
+#confirm-password {
+    color: var(--background);
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin: 10px 5px 10px 5px;
+}
+
+:root.dark-theme #confirm-password {
+    background: var(--primary);
+}
+
+:root.light-theme #confirm-password {
+    background: var(--primary);
+}
+
+#password-status {
+    color: var(--error);
+    font-size: 1.05em;
+    text-align: center;
+}

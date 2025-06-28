@@ -47,8 +47,27 @@
             </div>
         </div>
 
+        <!-- Password Prompt -->
+        <div id="password-prompt-background">
+            <div id="password-prompt">
+                <h2>Enter Password</h2>
+                <p>to change settings.</p>
+                <input
+                    type="password"
+                    id="current-password"
+                    autocomplete="current-password"
+                    name="current-password"
+                    placeholder="Enter current password"
+                />
+                <button id="confirm-password">Unlock</button>
+                <div id="password-status" style="display: none">
+                    <strong>Incorrect Password</strong>
+                </div>
+            </div>
+        </div>
+
         <script src="../../scripts/storageApi.js"></script>
         <script src="../../themes/themes.js"></script>
-        <script src="popup.js"></script>
+        <script src="popup.js" type="module"></script>
     </body>
 </html>

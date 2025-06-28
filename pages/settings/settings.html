@@ -62,6 +62,29 @@
                         </span>
                     </label>
                 </div>
+                <!-- Password Protection -->
+                <div class="form-group">
+                    <label for="password-protection">
+                        <span class="settings-name"
+                            >Enable Password Protection</span
+                        >
+                        <span>
+                            <input
+                                type="checkbox"
+                                id="password-protection"
+                                name="password-protection"
+                            />
+                            <span class="slider">
+                                <span class="slider-track"></span>
+                                <span class="slider-thumb"></span>
+                            </span>
+                        </span>
+                    </label>
+                </div>
+                <!-- No password warning -->
+                <div id="password-warning" style="display: none">
+                    Warning: No password set.
+                </div>
                 <!-- Redirect to page type -->
                 <div class="form-group">
                     <label for="redirectPage">
@@ -80,7 +103,11 @@
                     </label>
                 </div>
                 <!-- Custom page href -->
-                <div class="form-group" id="custom-page-group">
+                <div
+                    class="form-group"
+                    id="custom-page-group"
+                    style="display: none"
+                >
                     <label for="custom-page">
                         <span class="setting-name">Page URL</span>
                         <input
@@ -104,6 +131,15 @@
                     </label>
                     <div id="timeout-status"></div>
                 </div>
+                <!-- Update Password -->
+                <button
+                    class="full-button"
+                    id="set-password"
+                    style="display: none"
+                >
+                    Change Password
+                </button>
+                <!-- Save settings -->
                 <button type="submit">Save Settings</button>
             </form>
             <div id="export-import-div">
@@ -116,9 +152,28 @@
             </div>
             <div id="status"></div>
         </div>
+
+        <!-- Password Prompt -->
+        <div id="password-prompt-background" style="display: none">
+            <div id="password-prompt">
+                <h2>Enter Password</h2>
+                <p>to change settings.</p>
+                <input
+                    type="password"
+                    id="current-password"
+                    autocomplete="current-password"
+                    name="current-password"
+                    placeholder="Enter current password"
+                />
+                <button id="confirm-password">Unlock</button>
+                <div id="password-status" style="display: none">
+                    <strong>Incorrect Password</strong>
+                </div>
+            </div>
+        </div>
+
         <script src="../../themes/themes.js"></script>
-        <script src="settings.js"></script>
+        <script src="settings.js" type="module"></script>
         <script src="../../scripts/fileSync.js"></script>
     </body>
 </html>
-
