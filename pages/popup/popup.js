@@ -19,6 +19,8 @@ document.addEventListener("DOMContentLoaded", () => {
         "#password-prompt-background"
     );
 
+    const passwordPromptStatus = document.querySelector("#password-status");
+
     let unlocked = false;
 
     console.log(
