@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log(value);
             importSettings(value);
             loadSettings();
+            updateTheme();
         });
     });
 
