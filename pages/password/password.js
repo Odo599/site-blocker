@@ -3,23 +3,18 @@ import {
     setPassword,
 } from "../../scripts/passwordVerification.mjs";
 
-console.log(setPassword);
-
 document.addEventListener("DOMContentLoaded", () => {
     if (JSON.parse(localStorage.getItem("passwordEnabled"))) {
         const form = document.querySelector("#password-form");
         const status = document.querySelector("#status");
 
-        const currentPasswordInput =
-            document.querySelector("#current-password").childNodes[1]
-                .children[1].value;
+        const currentPasswordDiv = document.querySelector("#current-password");
 
         if (
             !localStorage.getItem("passwordHash") ||
             !localStorage.getItem("salt")
         ) {
-            console.log(currentPasswordInput);
-            currentPasswordInput.style.display = "none";
+            currentPasswordDiv.style.display = "none";
         }
 
         form.addEventListener("submit", async (e) => {
@@ -39,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 !localStorage.getItem("salt")
             ) {
                 isCorrect = true;
-                currentPasswordInput.style.display = "";
+                currentPasswordDiv.style.display = "none";
             } else {
                 isCorrect = await checkPassword(oldPassword);
             }
@@ -53,8 +48,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 try {
                     await setPassword(newPassword.value);
                     status.innerHTML = "Sucessfully changed password";
-                    console.log(currentPasswordInput);
                     newPassword.value = "";
+                    currentPasswordDiv.style.display = "";
                 } catch (e) {
                     status.innerHTML = "Failed to set password";
                     console.error(e);

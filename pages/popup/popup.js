@@ -21,13 +21,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let unlocked = false;
 
+    console.log(
+        !JSON.parse(localStorage.getItem("passwordEnabled")),
+        "passwordEnabled"
+    );
     if (!JSON.parse(localStorage.getItem("passwordEnabled"))) {
         unlocked = true;
+        console.log(unlocked);
         passwordPromptDivBackground.style.display = "none";
     }
 
     // Adds a website to the blacklist
     function addSiteBlacklist(site) {
+        console.log(site, unlocked);
         if (unlocked) {
             let sites = readBlockedSites();
             if (!sites.includes(site)) {
@@ -165,16 +171,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Adds click event listener to add to blacklist button
-    document.addEventListener("DOMContentLoaded", function () {
-        addBlacklistSiteButton.addEventListener(
-            "click",
-            onBlacklistAddButtonClick
-        );
-        addWhitelistSiteButton.addEventListener(
-            "click",
-            onWhitelistAddButtonClick
-        );
-    });
+    addBlacklistSiteButton.addEventListener("click", onBlacklistAddButtonClick);
+    addWhitelistSiteButton.addEventListener("click", onWhitelistAddButtonClick);
 
     const accordionHeader = document.querySelector(".accordion-header");
     const accordion = document.querySelector(".accordion");
