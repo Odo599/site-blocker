@@ -1,3 +1,16 @@
+// Use dynamic import for module compatibility in background scripts
+let getStats;
+(async () => {
+    const statsMod = await import("./convertStats.mjs");
+    getStats = statsMod.getStats;
+
+    const storageMod = await import("./storageApi.mjs");
+    readBlockedSites = storageMod.readBlockedSites;
+    writeBlockedSites = storageMod.writeBlockedSites;
+    readWhitelistedSites = storageMod.readWhitelistedSites;
+    writeWhitelistedSites = storageMod.writeWhitelistedSites;
+})();
+
 // Website Blocking Logic
 browser.webRequest.onBeforeRequest.addListener(
     function (details) {

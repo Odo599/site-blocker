@@ -1,3 +1,8 @@
+import {
+    convertStatsToDictWithAmounts,
+    getStats,
+} from "../../scripts/convertStats.mjs";
+
 const statsUl = document.querySelector("#stats");
 const resetButton = document.querySelector("#reset-button");
 

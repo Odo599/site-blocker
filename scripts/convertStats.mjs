@@ -32,3 +32,10 @@ function convertStatsToDictWithAmounts(stats) {
 function resetStats() {
     localStorage.removeItem("stats");
 }
+
+export {
+    getStats,
+    convertStatsToList,
+    convertStatsToDictWithAmounts,
+    resetStats,
+};

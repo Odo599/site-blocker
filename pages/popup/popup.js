@@ -1,4 +1,10 @@
 import { checkPassword } from "../../scripts/passwordVerification.mjs";
+import {
+    readBlockedSites,
+    writeBlockedSites,
+    readWhitelistedSites,
+    writeWhitelistedSites,
+} from "../../scripts/storageApi.mjs";
 
 document.addEventListener("DOMContentLoaded", () => {
     const addSiteInput = document.getElementById("add-site-input");

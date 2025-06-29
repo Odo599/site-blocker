@@ -23,3 +23,10 @@ function readWhitelistedSites() {
 function writeWhitelistedSites(sites) {
     localStorage.setItem("whitelistedSites", JSON.stringify(sites));
 }
+
+export {
+    readBlockedSites,
+    writeBlockedSites,
+    readWhitelistedSites,
+    writeWhitelistedSites,
+};

@@ -1,4 +1,10 @@
 import { checkPassword } from "../../scripts/passwordVerification.mjs";
+import {
+    exportSettings,
+    importSettings,
+    downloadFile,
+    readFile,
+} from "../../scripts/fileSync.mjs";
 
 document.addEventListener("DOMContentLoaded", () => {
     const toggles = [

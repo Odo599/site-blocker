@@ -73,3 +73,5 @@ function readFile() {
         input.click();
     });
 }
+
+export { exportSettings, importSettings, downloadFile, readFile };
