@@ -129,9 +129,15 @@ h3 {
     left: calc(100% - 50px);
 }
 
+#floating-button-stats {
+    top: 10px;
+    left: calc(100% - 170px);
+}
+
 #floating-button-theme {
     top: 10px;
     left: calc(100% - 110px);
+    cursor: pointer;
 }
 
 .floating-button-icon {
