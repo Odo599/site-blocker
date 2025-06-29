@@ -28,6 +28,15 @@ function importSettings(settings) {
     localStorage.setItem("disabled", settings.disabled);
 }
 
+function exportStats() {
+    const stats = JSON.parse(localStorage.getItem("stats"));
+    return stats;
+}
+
+function importStats(stats) {
+    localStorage.setItem("stats", stats);
+}
+
 function downloadFile(filename, data) {
     const blob = new Blob([data], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
@@ -74,4 +83,11 @@ function readFile() {
     });
 }
 
-export { exportSettings, importSettings, downloadFile, readFile };
+export {
+    exportSettings,
+    importSettings,
+    downloadFile,
+    readFile,
+    exportStats,
+    importStats,
+};

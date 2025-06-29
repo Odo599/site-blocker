@@ -3,15 +3,30 @@
     <head>
         <title>Stats</title>
         <link rel="stylesheet" href="../../themes/themes.css" />
+        <link rel="stylesheet" href="../../globals.css" />
         <link rel="stylesheet" href="stats.css" />
     </head>
     <body>
         <div class="stats-container">
+            <!-- Stats -->
             <div class="stats-title">Website Visit Stats</div>
             <ul id="stats" class="stats-list"></ul>
             <div id="reset-button">Reset Stats</div>
+
+            <!-- Import/Export Stats -->
+            <div id="export-import-div">
+                <button class="half-button" id="export-stats">
+                    Export Stats
+                </button>
+                <button class="half-button" id="import-stats">
+                    Import Stats
+                </button>
+            </div>
+
+            <!-- Footer -->
             <div class="stats-footer">Stats update automatically</div>
         </div>
+
         <script src="../../themes/themes.js"></script>
         <script src="stats.js" type="module"></script>
     </body>

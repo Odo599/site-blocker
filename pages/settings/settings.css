@@ -143,32 +143,6 @@ button[type="submit"] {
     margin-top: 10px;
 }
 
-.half-button {
-    color: var(--background);
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    font-size: 1em;
-    cursor: pointer;
-    transition: background 0.3s;
-    background: var(--foreground);
-    width: calc(50% - 2.5px);
-    margin-top: 10px;
-}
-
-.full-button {
-    color: var(--background);
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    font-size: 1em;
-    cursor: pointer;
-    transition: background 0.3s;
-    background: var(--foreground);
-    width: 100%;
-    margin-top: 10px;
-}
-
 button[type="submit"]:hover {
     background: #1256a3;
 }
