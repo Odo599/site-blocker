@@ -11,6 +11,9 @@ import {
     importStats,
 } from "../../scripts/fileSync.mjs";
 
+console.log(convertStatsToDictWithAmounts);
+console.log(getStats);
+
 document.addEventListener("DOMContentLoaded", () => {
     const statsUl = document.querySelector("#stats");
     const resetButton = document.querySelector("#reset-button");
@@ -23,7 +26,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         statsUl.innerHTML = "";
 
-        stats.forEach((value, key) => {
+        let i = 0;
+        const sortedStats = Array.from(stats.entries()).sort((a, b) => b[1] - a[1]);
+
+        sortedStats.forEach(([key, value]) => {
+            console.log(i, value, key);
+            i++;
             let li = document.createElement("li");
             let nameSpan = document.createElement("span");
             let countSpan = document.createElement("span");
