@@ -31,6 +31,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!JSON.parse(localStorage.getItem("passwordEnabled"))) {
         unlocked = true;
         passwordPromptDivBackground.style.display = "none";
+    } else {
+        passwordPromptDivBackground.style.display = "";
     }
 
     // Adds a website to the blacklist
