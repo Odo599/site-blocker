@@ -10,9 +10,11 @@ browser.webRequest.onBeforeRequest.addListener(
         href = url.href;
 
         function testRegex(domain, url) {
-            var regex = RegExp(domain, "i");
+            let regex;
             if (!advancedRegex) {
-                var regex = convertToRegex(domain);
+                regex = convertToRegex(domain);
+            } else {
+                regex = RegExp(domain, "i");
             }
             console.log(advancedRegex, regex, url);
             return regex.test(url);

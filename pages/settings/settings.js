@@ -166,7 +166,12 @@ document.addEventListener("DOMContentLoaded", () => {
     function loadTimeoutInput() {
         const input = document.getElementById("timeout");
         if (input) {
-            timeout = localStorage.getItem("timeout");
+            let timeout = localStorage.getItem("timeoutEnd");
+            if (timeout !== null) {
+                timeout = JSON.parse(timeout);
+            } else {
+                timeout = "";
+            }
             updateTimeoutStatus(
                 new Date(JSON.parse(localStorage.getItem("timeoutEnd")))
             );
