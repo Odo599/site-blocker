@@ -1,26 +1,6 @@
-:root.light-theme {
-    background: var(--background);
-}
-
-:root.dark-theme {
-    background: var(--background);
-}
-
 :root {
     transition: background 0.3s;
-}
-
-:root.light-theme .stats-container {
     background: var(--background);
-    color: var(--foreground);
-    border: 1px solid var(--border);
-    box-shadow: 0 2px 8px var(--shadow);
-}
-:root.dark-theme .stats-container {
-    background: var(--background);
-    color: var(--foreground);
-    border: 1px solid var(--border);
-    box-shadow: 0 2px 8px var(--shadow);
 }
 
 .stats-container {
@@ -28,7 +8,11 @@
     margin: 2rem auto;
     padding: 2rem 1.5rem;
     border-radius: 12px;
-    transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+    transition: background 0.3s, color 0.3s, box-shadow 0.3s border 0.3s;
+    background: var(--background);
+    color: var(--foreground);
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 8px var(--shadow);
 }
 
 .stats-title {

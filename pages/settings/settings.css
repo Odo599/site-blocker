@@ -10,32 +10,18 @@ body {
     margin: 0;
     padding: 0;
     color-scheme: light dark;
-}
-
-:root.dark-theme {
-    background: var(--background);
-}
-
-:root.light-theme {
     background: var(--background);
 }
 
 /* SETTINGS CONTAINER */
 .settings-container {
     transition: background 0.3s;
+    background: var(--background);
     max-width: 400px;
     margin: 40px auto;
     padding: 32px 24px 24px 24px;
     border-radius: 12px;
     box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
-}
-
-:root.dark-theme .settings-container {
-    background: var(--background);
-}
-
-:root.light-theme .settings-container {
-    background: var(--background);
 }
 
 .setting-name {
@@ -45,16 +31,10 @@ body {
 h1 {
     font-size: 1.7em;
     margin-bottom: 24px;
-    transition: background 0.3s;
+    transition: color 0.3s;
+    color: var(--foreground);
+
     text-align: center;
-}
-
-:root.light-theme h1 {
-    color: var(--foreground);
-}
-
-:root.light-theme h1 {
-    color: var(--foreground);
 }
 
 #timeout-status {
@@ -103,13 +83,6 @@ input[type="checkbox"] {
     bottom: 0;
     border-radius: 24px;
     transition: background 0.3s;
-}
-
-:root.light-theme .slider-track {
-    background: var(--secondary);
-}
-
-:root.dark-theme .slider-track {
     background: var(--secondary);
 }
 
@@ -143,18 +116,13 @@ input[type="text"] {
     border: 1px solid var(--border);
     border-radius: 5px;
     font-size: 1em;
-    background: var(--secondary);
     transition: border 0.2s background 0.3s;
+    background: var(--secondary);
 }
 
 :root.light-theme input[type="text"] {
     color: #111;
     caret-color: #111;
-    background: var(--secondary);
-}
-
-:root.dark-theme input[type="text"] {
-    background: var(--secondary);
 }
 
 input[type="text"]:focus {
@@ -170,16 +138,9 @@ button[type="submit"] {
     font-size: 1em;
     cursor: pointer;
     transition: background 0.3s;
+    background: var(--primary);
     width: 100%;
     margin-top: 10px;
-}
-
-:root.dark-theme button[type="submit"] {
-    background: var(--primary);
-}
-
-:root.light-theme button[type="submit"] {
-    background: var(--primary);
 }
 
 .half-button {
@@ -190,16 +151,9 @@ button[type="submit"] {
     font-size: 1em;
     cursor: pointer;
     transition: background 0.3s;
+    background: var(--foreground);
     width: calc(50% - 2.5px);
     margin-top: 10px;
-}
-
-:root.dark-theme .half-button {
-    background: var(--foreground);
-}
-
-:root.light-theme .half-button {
-    background: var(--foreground);
 }
 
 .full-button {
@@ -210,16 +164,9 @@ button[type="submit"] {
     font-size: 1em;
     cursor: pointer;
     transition: background 0.3s;
+    background: var(--foreground);
     width: 100%;
     margin-top: 10px;
-}
-
-:root.dark-theme .full-button {
-    background: var(--foreground);
-}
-
-:root.light-theme .full-button {
-    background: var(--foreground);
 }
 
 button[type="submit"]:hover {
@@ -259,17 +206,10 @@ button[type="submit"]:hover {
 
 #password-prompt {
     transition: background 0.3s;
+    background: var(--background);
     box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
     border-radius: 10px;
     padding: 10px;
-}
-
-:root.light-theme #password-prompt {
-    background: var(--background);
-}
-
-:root.dark-theme #password-prompt {
-    background: var(--background);
 }
 
 #password-prompt h2 {
@@ -297,11 +237,6 @@ input[type="password"] {
 :root.light-theme input[type="password"] {
     color: #111;
     caret-color: #111;
-    background: var(--secondary);
-}
-
-:root.dark-theme input[type="password"] {
-    background: var(--secondary);
 }
 
 #confirm-password {
@@ -312,15 +247,8 @@ input[type="password"] {
     font-size: 1em;
     cursor: pointer;
     transition: background 0.3s;
+    background: var(--primary);
     margin: 10px 5px 10px 5px;
-}
-
-:root.dark-theme #confirm-password {
-    background: var(--primary);
-}
-
-:root.light-theme #confirm-password {
-    background: var(--primary);
 }
 
 #password-status {
