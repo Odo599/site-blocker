@@ -120,18 +120,26 @@ h3 {
     background: #c0392b;
 }
 
-#floating-button {
+.floating-button {
     height: 40px;
     width: 40px;
     position: fixed;
-    top: 10px;
-    left: calc(100% - 50px);
     border-radius: 100%;
     border: 2px solid var(--border);
     box-shadow: 0 2px 8px var(--shadow);
 }
 
-#settings-svg {
+#floating-button-settings {
+    top: 10px;
+    left: calc(100% - 50px);
+}
+
+#floating-button-theme {
+    top: 10px;
+    left: calc(100% - 110px);
+}
+
+.floating-button-icon {
     margin: 2.5px;
     height: 35px;
     width: 35px;
@@ -144,7 +152,7 @@ input[type="text"]:focus,
 input[type="text"]:active,
 input[type="text"]:hover,
 input[type="text"]::placeholder,
-input[type="text"]:-webkit-autofill {
+input#settings-svg[type="text"]:-webkit-autofill {
     all: unset;
 }
 

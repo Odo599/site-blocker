@@ -21,21 +21,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const passwordPromptStatus = document.querySelector("#password-status");
 
+    const accordionHeader = document.querySelector(".accordion-header");
+    const accordion = document.querySelector(".accordion");
+
+    const themeSwitchButton = document.querySelector("#floating-button-theme");
+
     let unlocked = false;
 
-    console.log(
-        !JSON.parse(localStorage.getItem("passwordEnabled")),
-        "passwordEnabled"
-    );
     if (!JSON.parse(localStorage.getItem("passwordEnabled"))) {
         unlocked = true;
-        console.log(unlocked);
         passwordPromptDivBackground.style.display = "none";
     }
 
     // Adds a website to the blacklist
     function addSiteBlacklist(site) {
-        console.log(site, unlocked);
         if (unlocked) {
             let sites = readBlockedSites();
             if (!sites.includes(site)) {
@@ -172,13 +171,15 @@ document.addEventListener("DOMContentLoaded", () => {
         return div;
     }
 
+    function toggleTheme() {
+        const isCurrentlyDark = JSON.parse(localStorage.getItem("darkmode"));
+        localStorage.setItem("darkmode", JSON.parse(!isCurrentlyDark));
+        updateTheme();
+    }
+
     // Adds click event listener to add to blacklist button
     addBlacklistSiteButton.addEventListener("click", onBlacklistAddButtonClick);
     addWhitelistSiteButton.addEventListener("click", onWhitelistAddButtonClick);
-
-    const accordionHeader = document.querySelector(".accordion-header");
-    const accordion = document.querySelector(".accordion");
-    // Accordion functionality
 
     accordionHeader.addEventListener("click", () => {
         const content = accordion.querySelector(".accordion-content");
@@ -212,6 +213,8 @@ document.addEventListener("DOMContentLoaded", () => {
             passwordPromptDivBackground.style.display = "none";
         }
     });
+
+    themeSwitchButton.addEventListener("click", toggleTheme);
 
     function updateRegexWarning() {
         const regexWarning = document.querySelector(".advanced-regex-warning");

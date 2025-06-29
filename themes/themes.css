@@ -25,3 +25,11 @@
     --success: #81c784;
     --shadow: rgba(0, 0, 0, 0.7);
 }
+
+:root.light-theme .dark-theme-only {
+    display: none;
+}
+
+:root.dark-theme .light-theme-only {
+    display: none;
+}
