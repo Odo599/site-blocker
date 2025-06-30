@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "target": "ES6",
+        "module": "esnext",
+        "moduleResolution": "node",
+        "outDir": "dist",
+        "rootDir": "src",
+        "allowJs": false,
+        "checkJs": false,
+        "esModuleInterop": true,
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
+        "lib": ["es2017", "dom"]
+    },
+    "include": ["src"]
+}

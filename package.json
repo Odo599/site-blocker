@@ -1,0 +1,24 @@
+{
+    "name": "site-blocker",
+    "version": "1.0.0",
+    "description": "It's a Firefox add-on that blocks certain websites of your choice. It's quite simple.",
+    "main": "index.js",
+    "scripts": {
+        "build": "tsc"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Odo599/site-blocker.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "type": "commonjs",
+    "bugs": {
+        "url": "https://github.com/Odo599/site-blocker/issues"
+    },
+    "homepage": "https://github.com/Odo599/site-blocker#readme",
+    "devDependencies": {
+        "typescript": "^5.8.3"
+    }
+}

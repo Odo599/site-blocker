@@ -1,12 +1,12 @@
 function getStats() {
-    let stats = JSON.parse(localStorage.getItem("stats"));
+    let stats = JSON.parse(localStorage.getItem("stats") || "[]");
     if (stats === null) {
         stats = [];
     }
     return stats;
 }
 
-function convertStatsToList(stats) {
+function convertStatsToList(stats: string) {
     const list = [];
     for (let i = 0; i < stats.length; i++) {
         list.push(stats[i][0]);
@@ -14,8 +14,8 @@ function convertStatsToList(stats) {
     return list;
 }
 
-function convertStatsToDictWithAmounts(stats) {
-    let list = convertStatsToList(stats);
+function convertStatsToDictWithAmounts(stats: Array<[string, Date]>) {
+    let list = stats.map((sublist) => sublist[0]);
     let keyDict = new Map();
 
     for (let i = 0; i < list.length; i++) {

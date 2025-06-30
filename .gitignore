@@ -1,1 +1,3 @@
 site-blocker.zip
+node_modules/
+dist/

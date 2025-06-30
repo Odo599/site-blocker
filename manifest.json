@@ -10,11 +10,11 @@
         "contextMenus"
     ],
     "background": {
-        "scripts": ["scripts/background.js"]
+        "scripts": ["dist/scripts/background.js"]
     },
-    "web_accessible_resources": ["pages/redirect/redirect.html"],
+    "web_accessible_resources": ["src/pages/redirect/redirect.html"],
     "browser_action": {
-        "default_popup": "pages/popup/popup.html",
+        "default_popup": "src/pages/popup/popup.html",
         "default_title": "Site Blocker"
     }
 }

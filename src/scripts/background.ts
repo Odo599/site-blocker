@@ -1,5 +1,11 @@
 // Use dynamic import for module compatibility in background scripts
-let getStats;
+let getStats: Function;
+
+let readBlockedSites: Function,
+    writeBlockedSites: Function,
+    readWhitelistedSites: Function,
+    writeWhitelistedSites: Function;
+
 (async () => {
     const statsMod = await import("./convertStats.mjs");
     getStats = statsMod.getStats;
@@ -12,35 +18,37 @@ let getStats;
 })();
 
 // Website Blocking Logic
+// @ts-ignore
 browser.webRequest.onBeforeRequest.addListener(
-    function (details) {
+    function (details: object) {
+        // @ts-ignore
         const url = new URL(details.url);
         var blockedSites = readBlockedSites();
         const whitelistSites = readWhitelistedSites();
 
         const advancedRegex = localStorage.getItem("advancedRegex") === "true";
 
-        href = url.href;
+        let href = url.href;
 
-        function testRegex(domain, url) {
+        function testRegex(domain: string, url: string) {
             let regex;
             if (!advancedRegex) {
                 regex = convertToRegex(domain);
             } else {
                 regex = RegExp(domain, "i");
             }
-            console.log(advancedRegex, regex, url);
+            console.log(regex, url);
             return regex.test(url);
         }
 
-        function convertToRegex(domain) {
+        function convertToRegex(domain: string) {
             const escaped = domain.replace(/[-/\\^$+?.()|[\]{}]/g, "\\$&");
             const wildcarded = escaped.replace(/\*/g, ".*");
             const anchored = "^" + wildcarded + "$";
             return new RegExp(anchored, "i");
         }
 
-        function logBlock(domain) {
+        function logBlock(domain: string) {
             let stats = getStats();
             stats.push([domain, new Date()]);
             localStorage.setItem("stats", JSON.stringify(stats));
@@ -48,36 +56,44 @@ browser.webRequest.onBeforeRequest.addListener(
 
         href = clearUrl(href);
 
-        const matchesBlocked = blockedSites.some((domain) =>
+        const matchesBlocked = blockedSites.some((domain: string) =>
             testRegex(domain, href)
         );
-        const matchesWhitelisted = whitelistSites.some((domain) =>
+        const matchesWhitelisted = whitelistSites.some((domain: string) =>
             testRegex(domain, href)
         );
+
+        console.log(matchesBlocked, matchesWhitelisted);
 
         if (
             // Check if still enabled
             localStorage.getItem("disabled") != "true" &&
             // Check if timeout is active
-            JSON.parse(localStorage.getItem("timeoutEnd")) < Date.now() &&
+            new Date(
+                JSON.parse(
+                    localStorage.getItem("timeoutEnd") ||
+                        JSON.stringify(new Date(0))
+                )
+            ) < new Date(Date.now()) &&
             // Check if site is blocked
             matchesBlocked &&
             // Check if site is not whitelisted
             !matchesWhitelisted
         ) {
             const customRedirect = JSON.parse(
-                localStorage.getItem("customRedirectEnabled")
+                localStorage.getItem("customRedirectEnabled") || ""
             );
             let redirectHref;
             if (customRedirect) {
                 redirectHref =
                     "https://" + localStorage.getItem("customPageLink");
             } else {
+                // @ts-ignore
                 redirectHref = browser.runtime.getURL(
-                    "../pages/redirect/redirect.html"
+                    "src/pages/redirect/redirect.html"
                 );
             }
-            console.log(redirectHref);
+            console.log(logBlock);
             logBlock(href);
             return {
                 redirectUrl: redirectHref,
@@ -88,7 +104,7 @@ browser.webRequest.onBeforeRequest.addListener(
     ["blocking"]
 );
 
-function addSiteBlacklist(site) {
+function addSiteBlacklist(site: string) {
     let sites = readBlockedSites();
     if (!sites.includes(site)) {
         sites.push(site);
@@ -97,7 +113,7 @@ function addSiteBlacklist(site) {
 }
 
 // Remove https://*, http://*, www.* & */ from url
-function clearUrl(url) {
+function clearUrl(url: string) {
     if (url.slice(0, 8) === "https://") {
         url = url.slice(8);
     }
@@ -118,15 +134,17 @@ function clearUrl(url) {
 }
 
 // Context Menu
+// @ts-ignore
 browser.contextMenus.create({
     id: "block-current",
     title: "Block Current Webpage",
 });
 
+// @ts-ignore
 browser.contextMenus.onClicked.addListener((info, tab) => {
     if (info.menuItemId === "block-current") {
         let url = clearUrl(tab.url);
-        if (JSON.parse(localStorage.getItem("advancedRegex"))) {
+        if (JSON.parse(localStorage.getItem("advancedRegex") || "false")) {
             url = "^" + url + "$";
         }
         console.log("Blocking from context menu:", url);

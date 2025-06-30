@@ -1,12 +1,12 @@
 // Utility: Convert ArrayBuffer to hex string
-function bufferToHex(buffer) {
+function bufferToHex(buffer: any) {
     return [...new Uint8Array(buffer)]
         .map((b) => b.toString(16).padStart(2, "0"))
         .join("");
 }
 
 // Utility: Convert hex string to ArrayBuffer
-function hexToBuffer(hex) {
+function hexToBuffer(hex: string) {
     const bytes = new Uint8Array(hex.length / 2);
     for (let i = 0; i < hex.length; i += 2) {
         bytes[i / 2] = parseInt(hex.substr(i, 2), 16);
@@ -22,7 +22,7 @@ function generateSalt() {
 }
 
 // Derive a key from password and salt using PBKDF2
-async function hashPassword(password, saltHex) {
+async function hashPassword(password: string, saltHex: string) {
     const enc = new TextEncoder();
     const salt = hexToBuffer(saltHex);
     const keyMaterial = await crypto.subtle.importKey(
@@ -49,7 +49,7 @@ async function hashPassword(password, saltHex) {
 }
 
 // Set a new password
-async function setPassword(password) {
+async function setPassword(password: string) {
     const salt = generateSalt();
     const passwordHash = await hashPassword(password, salt);
     localStorage.setItem("passwordHash", passwordHash);
@@ -57,7 +57,7 @@ async function setPassword(password) {
 }
 
 // Check if password is correct
-async function checkPassword(inputPassword) {
+async function checkPassword(inputPassword: string) {
     const passwordHash = localStorage.getItem("passwordHash");
     const salt = localStorage.getItem("salt");
     if (!passwordHash || !salt) return false;

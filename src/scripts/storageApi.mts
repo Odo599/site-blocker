@@ -7,7 +7,7 @@ function readBlockedSites() {
     }
 }
 
-function writeBlockedSites(sites) {
+function writeBlockedSites(sites: Array<string>) {
     localStorage.setItem("blockedSites", JSON.stringify(sites));
 }
 
@@ -20,7 +20,7 @@ function readWhitelistedSites() {
     }
 }
 
-function writeWhitelistedSites(sites) {
+function writeWhitelistedSites(sites: Array<string>) {
     localStorage.setItem("whitelistedSites", JSON.stringify(sites));
 }
 
