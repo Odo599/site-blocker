@@ -24,3 +24,10 @@ It's a Firefox add-on that blocks certain websites of your choice. It's quite si
 8. It should now be installed.
 
 Unfortunately, due to the way Firefox treats temporary add-ons, this will be unloaded on every firefox restart so you'll have to repeat steps 4-8.
+
+## Building
+
+1. Install NPM 11.4.1
+2. Run npm install
+3. Run npm run package
+4. Use the package site-blocker.xpi

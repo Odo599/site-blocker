@@ -1,3 +1,6 @@
 site-blocker.zip
 node_modules/
 dist/
+.gitignore
+site-blocker-source.zip
+site-blocker.xpi
