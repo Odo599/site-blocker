@@ -5,7 +5,8 @@
     "main": "index.js",
     "scripts": {
         "build": "tsc",
-        "package": "tsc && zip -r site-blocker.xpi assets dist manifest.json src -x 'src/**/*.ts'"
+        "package": "tsc && zip -r site-blocker.xpi assets dist manifest.json src -x 'src/**/*.ts'",
+        "zip-source": "zip -r site-blocker-source.zip assets src manifest.json package.json tsconfig.json"
     },
     "repository": {
         "type": "git",
