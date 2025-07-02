@@ -46,6 +46,7 @@
                         </span>
                     </label>
                 </div>
+
                 <!-- Advanced Regex Checking -->
                 <div class="form-group">
                     <label for="advancedRegex">
@@ -63,6 +64,7 @@
                         </span>
                     </label>
                 </div>
+
                 <!-- Password Protection -->
                 <div class="form-group">
                     <label for="password-protection">
@@ -82,10 +84,12 @@
                         </span>
                     </label>
                 </div>
+
                 <!-- No password warning -->
                 <div id="password-warning" style="display: none">
                     Warning: No password set.
                 </div>
+
                 <!-- Redirect to page type -->
                 <div class="form-group">
                     <label for="redirectPage">
@@ -103,6 +107,7 @@
                         </span>
                     </label>
                 </div>
+
                 <!-- Custom page href -->
                 <div
                     class="form-group"
@@ -119,6 +124,7 @@
                         />
                     </label>
                 </div>
+
                 <!-- Re-enable in x minutes feature -->
                 <div class="form-group">
                     <label for="timeout">
@@ -132,6 +138,7 @@
                     </label>
                     <div id="timeout-status"></div>
                 </div>
+
                 <!-- Update Password -->
                 <button
                     class="full-button"
@@ -140,6 +147,12 @@
                 >
                     Change Password
                 </button>
+
+                <!-- Block Settings Button -->
+                <button class="full-button" id="blockSettings" type="button">
+                    Block Settings
+                </button>
+
                 <!-- Save settings -->
                 <button type="submit">Save Settings</button>
             </form>
@@ -155,8 +168,12 @@
         </div>
 
         <!-- Password Prompt -->
-        <div id="password-prompt-background" style="display: none">
-            <div id="password-prompt">
+        <div
+            id="password-prompt-background"
+            class="prompt-background"
+            style="display: none"
+        >
+            <div id="password-prompt" class="prompt">
                 <h2>Enter Password</h2>
                 <p>to change settings.</p>
                 <input
@@ -170,6 +187,49 @@
                 <div id="password-status" style="display: none">
                     <strong>Incorrect Password</strong>
                 </div>
+            </div>
+        </div>
+
+        <!-- Enable Blocked Settings Prompt -->
+        <div
+            id="enable-block-settings-background"
+            class="prompt-background"
+            style="display: none"
+        >
+            <div id="block-settings-prompt" class="prompt">
+                <h2>Are you sure you want to do this?</h2>
+                <p>
+                    You will not be able to change settings or block and unblock
+                    websites.
+                </p>
+                <input
+                    id="minutes-input"
+                    class="full-input"
+                    placeholder="Enter amount of minutes"
+                />
+                <div id="confirm-div">
+                    <button class="half-button" id="cancel-button">
+                        Cancel
+                    </button>
+                    <button class="half-button" id="confirm-button">
+                        Confirm
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Disabled -->
+        <div
+            id="disabled-settings-page"
+            class="prompt-background"
+            style="display: none"
+        >
+            <div id="disbled-settings-prompt" class="prompt">
+                <h2>Settings is currently paused.</h2>
+                <p>
+                    Come back is
+                    <span id="minutes-left-span">null</span> minutes.
+                </p>
             </div>
         </div>
 

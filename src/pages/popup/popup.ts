@@ -38,8 +38,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const themeSwitchButton = document.querySelector("#floating-button-theme");
 
-    let unlocked = false;
+    //// Settings Pauses
+    const settingsPausedPromptDivBackground = document.querySelector(
+        "#disabled-settings-page"
+    ) as HTMLDivElement | null;
 
+    const settingsPausedMinutesLeftStatus = document.querySelector(
+        "#disabled-settings-page #minutes-left-span"
+    );
+
+    let unlocked = false;
+    let blocked = false;
+
+    // Check if password is enabled
     if (!JSON.parse(localStorage.getItem("passwordEnabled") || "false")) {
         unlocked = true;
         if (passwordPromptDivBackground !== null) {
@@ -51,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Adds a website to the blacklist
     function addSiteBlacklist(site: string) {
-        if (unlocked) {
+        if (unlocked && !blocked) {
             let sites = readBlockedSites();
             if (!sites.includes(site)) {
                 sites.push(site);
@@ -62,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Removes a website from the blacklist
     function removeSiteBlacklist(site: string) {
-        if (unlocked) {
+        if (unlocked && !blocked) {
             let sites = readBlockedSites();
             sites = sites.filter((item: string) => item !== site);
             writeBlockedSites(sites);
@@ -101,7 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Adds a website to the whitelist
     function addSiteWhitelist(site: string) {
-        if (unlocked) {
+        if (unlocked && !blocked) {
             let sites = readWhitelistedSites();
             if (!sites.includes(site)) {
                 sites.push(site);
@@ -112,7 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Removes a website from the whitelist
     function removeSiteWhitelist(site: string) {
-        if (unlocked) {
+        if (unlocked && !blocked) {
             let sites = readWhitelistedSites();
             sites = sites.filter((item: string) => item !== site);
             writeWhitelistedSites(sites);
@@ -283,8 +294,91 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    // Loads a Date object from localstorage
+    function loadDate(key: string) {
+        const storageItem = localStorage.getItem(key);
+        if (storageItem !== null) {
+            return new Date(JSON.parse(storageItem));
+        } else {
+            return null;
+        }
+    }
+
+    function checkIfDisabled() {
+        const settingsPaused = JSON.parse(
+            localStorage.getItem("settingsLocked") || "false"
+        );
+        const unlockDate = loadDate("unlockIn");
+
+        console.log(
+            "[checkIfDisabled]: settingsPaused, unlockDate",
+            settingsPaused,
+            unlockDate
+        );
+
+        if (unlockDate === null || !settingsPaused) {
+            if (!settingsPaused) {
+                console.log("[checkIfDisabled]: settingsLocked is disabled");
+            } else {
+                console.warn("[checkIfDisabled]: Date could not be loaded.");
+            }
+            return false;
+        } else {
+            const nowMs = Date.now();
+            const unlockMs = unlockDate.valueOf();
+
+            console.log(
+                "[checkIfDisabled]: nowMs - unlockMs",
+                nowMs - unlockMs
+            );
+
+            if (nowMs > unlockMs) {
+                console.log(
+                    "[checkIfDisabled]: Not disabled; After re-enable time."
+                );
+                return false;
+            } else {
+                console.log(
+                    "[checkIfDisabled]: Disabled; Before re-enable time."
+                );
+                return true;
+            }
+        }
+    }
+
+    function updateSettingsBlocked() {
+        blocked = checkIfDisabled();
+        console.log(
+            "[updateSettingsBlocked]: checkIfDisabled",
+            checkIfDisabled
+        );
+        if (settingsPausedPromptDivBackground !== null) {
+            if (blocked) {
+                settingsPausedPromptDivBackground.style.display = "";
+
+                if (settingsPausedMinutesLeftStatus !== null) {
+                    const unlockInDate = loadDate("unlockIn");
+                    const minutesNow = new Date(Date.now()).getMinutes();
+                    const unlockInMinutes = unlockInDate?.getMinutes();
+
+                    if (unlockInMinutes !== undefined) {
+                        let minutesToGo = unlockInMinutes - minutesNow;
+                        if (minutesToGo < 0) {
+                            minutesToGo += 60;
+                        }
+                        settingsPausedMinutesLeftStatus.innerHTML =
+                            minutesToGo.toString();
+                    }
+                }
+            } else {
+                settingsPausedPromptDivBackground.style.display = "none";
+            }
+        }
+    }
+
     // Init
     updateBlacklist();
     updateWhitelist();
     updateRegexWarning();
+    updateSettingsBlocked();
 });

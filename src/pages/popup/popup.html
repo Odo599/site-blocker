@@ -5,6 +5,7 @@
         <title>Site Blocker</title>
         <link rel="stylesheet" href="popup.css" />
         <link rel="stylesheet" href="../../themes/themes.css" />
+        <link rel="stylesheet" href="../../globals.css" />
     </head>
     <body>
         <h3>Edit Blocked Sites</h3>
@@ -81,6 +82,21 @@
                 <div id="password-status" style="display: none">
                     <strong>Incorrect Password</strong>
                 </div>
+            </div>
+        </div>
+
+        <!-- Settings Disabled -->
+        <div
+            id="disabled-settings-page"
+            class="prompt-background"
+            style="display: none"
+        >
+            <div id="disbled-settings-prompt" class="prompt">
+                <h2>Settings is currently paused.</h2>
+                <p>
+                    Come back is
+                    <span id="minutes-left-span">null</span> minutes.
+                </p>
             </div>
         </div>
 

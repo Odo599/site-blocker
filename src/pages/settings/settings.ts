@@ -5,6 +5,7 @@ import {
     downloadFile,
     readFile,
 } from "../../scripts/fileSync.mjs";
+import { getDateInMinutes } from "../../scripts/date.mjs";
 
 document.addEventListener("DOMContentLoaded", () => {
     const toggles = [
@@ -15,19 +16,35 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "password-protection", key: "passwordEnabled" },
     ];
     const values = [{ id: "customPageHref", key: "customPageLink" }];
+
+    // Form
     const statusDiv = document.getElementById("status");
     const form = document.getElementById("settings-form");
 
+    // Buttons
+    //// Import/Export
     const exportSettingsButton = document.getElementById("export-settings");
     const importSettingsButton = document.getElementById("import-settings");
 
+    //// Password
     const changePasswordButton = document.querySelector("#set-password");
+
+    //// Block Settings
+    const blockSettingsButton = document.querySelector("#blockSettings");
+
+    // Prompts
+    //// Password Prompt
     const passwordPromptDivBackground = document.querySelector(
         "#password-prompt-background"
     ) as HTMLElement | null;
+
     const passwordPromptStatus = document.querySelector(
         "#password-status"
     ) as HTMLElement | null;
+
+    const blockSettingsInput = document.querySelector(
+        "#block-settings-prompt #minutes-input"
+    ) as HTMLInputElement | null;
 
     const passwordInput = document.querySelector(
         "#current-password"
@@ -38,7 +55,34 @@ document.addEventListener("DOMContentLoaded", () => {
         "#password-warning"
     ) as HTMLElement | null;
 
-    let unlocked = false;
+    //// Block Settings
+    const blockSettingsPromptDivBackground = document.querySelector(
+        "#enable-block-settings-background"
+    ) as HTMLElement | null;
+
+    const blockSettingsCancelButton = document.querySelector(
+        "#block-settings-prompt #cancel-button"
+    ) as HTMLButtonElement | null;
+
+    const blockSettingsConfirmButton = document.querySelector(
+        "#block-settings-prompt #confirm-button"
+    ) as HTMLButtonElement | null;
+
+    //// Settings Pauses
+    const settingsPausedPromptDivBackground = document.querySelector(
+        "#disabled-settings-page"
+    ) as HTMLDivElement | null;
+
+    const settingsPausedMinutesLeftStatus = document.querySelector(
+        "#disabled-settings-page #minutes-left-span"
+    );
+
+    let unlocked = true;
+    let blocked = false;
+
+    if (!JSON.parse(localStorage.getItem("passwordEnabled") || "false")) {
+        unlocked = true;
+    }
 
     // Setup export button click
     if (exportSettingsButton !== null) {
@@ -129,7 +173,73 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Use localStorage for settings
+    // Setup block settings button click
+    if (blockSettingsButton !== null) {
+        blockSettingsButton.addEventListener("click", () => {
+            if (blockSettingsPromptDivBackground !== null) {
+                blockSettingsPromptDivBackground.style.display = "";
+            }
+        });
+    }
+
+    // Setup block settings cancel
+    if (blockSettingsCancelButton !== null) {
+        blockSettingsCancelButton.addEventListener("click", () => {
+            if (blockSettingsPromptDivBackground !== null) {
+                blockSettingsPromptDivBackground.style.display = "none";
+                console.log("Cancelled disable settings");
+            } else {
+                console.error(
+                    "Could not find cancel settings. This should never happen."
+                );
+            }
+        });
+    }
+
+    // Setup block settings confirm
+    if (blockSettingsConfirmButton !== null) {
+        blockSettingsConfirmButton.addEventListener("click", () => {
+            if (blockSettingsInput !== null) {
+                if (!checkIfDisabled()) {
+                    const minutesStr = blockSettingsInput.value;
+                    const minutesFloat = parseFloat(minutesStr);
+
+                    if (!isNaN(minutesFloat)) {
+                        const endDate = getDateInMinutes(minutesFloat);
+                        console.log(
+                            "[blockSettingsConfirmButton]: endDate",
+                            endDate
+                        );
+                        localStorage.setItem(
+                            "unlockIn",
+                            JSON.stringify(endDate)
+                        );
+                        localStorage.setItem(
+                            "settingsLocked",
+                            JSON.stringify(true)
+                        );
+                        updateSettingsBlocked();
+                    } else {
+                        console.warn(
+                            "[blockSettingsConfirmButton]: Could not convert",
+                            minutesStr,
+                            "to float."
+                        );
+                    }
+                } else {
+                    console.warn(
+                        "[blockSettingsConfirmButton]: Already disabled."
+                    );
+                }
+            } else {
+                console.error(
+                    "[blockSettingsConfirmButton]: Could not find input."
+                );
+            }
+        });
+    }
+
+    // Load the settings into form
     function loadSettings() {
         toggles.forEach((t) => {
             const el = document.getElementById(t.id) as HTMLInputElement | null;
@@ -147,6 +257,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // Save the settings in the form
     function saveSettings() {
         function save() {
             toggles.forEach((t) => {
@@ -202,18 +313,37 @@ document.addEventListener("DOMContentLoaded", () => {
             updateTheme();
         }
 
-        if (
-            !JSON.parse(localStorage.getItem("passwordEnabled") || "false") ||
-            unlocked
-        ) {
+        console.log("[saveSettings]: !blocked, unlocked", !blocked, unlocked);
+
+        if (!blocked && unlocked) {
             save();
-        } else {
-            if (passwordPromptDivBackground !== null) {
+        }
+
+        const passwordEnabled = JSON.parse(
+            localStorage.getItem("passwordEnabled") || "false"
+        );
+
+        console.log("[save]: Password enabled", passwordEnabled);
+
+        if (passwordPromptDivBackground !== null) {
+            if (passwordEnabled && !unlocked) {
                 passwordPromptDivBackground.style.display = "";
+            } else {
+                passwordPromptDivBackground.style.display = "none";
+            }
+        } else {
+        }
+
+        if (settingsPausedPromptDivBackground !== null) {
+            if (blocked) {
+                settingsPausedPromptDivBackground.style.display = "";
+            } else {
+                settingsPausedPromptDivBackground.style.display = "none";
             }
         }
     }
 
+    // Updates the timeout status in the form
     function updateTimeoutStatus(date: Date) {
         const timeoutStatusDiv = document.getElementById("timeout-status");
         if (date) {
@@ -232,7 +362,38 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Load and save the timeout input value
+    // Updated the prompt that shows when the settings is blocked
+    function updateSettingsBlocked() {
+        blocked = checkIfDisabled();
+        console.log(
+            "[updateSettingsBlocked]: checkIfDisabled",
+            checkIfDisabled
+        );
+        if (settingsPausedPromptDivBackground !== null) {
+            if (blocked) {
+                settingsPausedPromptDivBackground.style.display = "";
+
+                if (settingsPausedMinutesLeftStatus !== null) {
+                    const unlockInDate = loadDate("unlockIn");
+                    const minutesNow = new Date(Date.now()).getMinutes();
+                    const unlockInMinutes = unlockInDate?.getMinutes();
+
+                    if (unlockInMinutes !== undefined) {
+                        let minutesToGo = unlockInMinutes - minutesNow;
+                        if (minutesToGo < 0) {
+                            minutesToGo += 60;
+                        }
+                        settingsPausedMinutesLeftStatus.innerHTML =
+                            minutesToGo.toString();
+                    }
+                }
+            } else {
+                settingsPausedPromptDivBackground.style.display = "none";
+            }
+        }
+    }
+
+    // Load the timeout input value
     function loadTimeoutInput() {
         const input = document.getElementById(
             "timeout"
@@ -251,6 +412,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    // Save the timeout input value
     function saveTimeoutInput() {
         const input = document.getElementById(
             "timeout"
@@ -266,7 +428,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 updateTimeoutStatus(new Date(timeoutEnd));
             } else {
                 localStorage.removeItem("timeoutEnd");
-                // updateTimeoutStatus(); TODO why was this here
                 setTimeout(() => {
                     const timeoutStatusDiv =
                         document.getElementById("timeout-status");
@@ -278,10 +439,67 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    // Loads a Date object from localstorage
+    function loadDate(key: string) {
+        const storageItem = localStorage.getItem(key);
+        if (storageItem !== null) {
+            return new Date(JSON.parse(storageItem));
+        } else {
+            return null;
+        }
+    }
+
+    // Checks if settings is disabled
+    function checkIfDisabled() {
+        const settingsPaused = JSON.parse(
+            localStorage.getItem("settingsLocked") || "false"
+        );
+        const unlockDate = loadDate("unlockIn");
+
+        console.log(
+            "[checkIfDisabled]: settingsPaused, unlockDate",
+            settingsPaused,
+            unlockDate
+        );
+
+        if (unlockDate === null || !settingsPaused) {
+            if (!settingsPaused) {
+                console.log("[checkIfDisabled]: settingsLocked is disabled");
+            } else {
+                console.warn("[checkIfDisabled]: Date could not be loaded.");
+            }
+            return false;
+        } else {
+            const nowMs = Date.now();
+            const unlockMs = unlockDate.valueOf();
+
+            console.log(
+                "[checkIfDisabled]: nowMs - unlockMs",
+                nowMs - unlockMs
+            );
+
+            if (nowMs > unlockMs) {
+                console.log(
+                    "[checkIfDisabled]: Not disabled; After re-enable time."
+                );
+                return false;
+            } else {
+                console.log(
+                    "[checkIfDisabled]: Disabled; Before re-enable time."
+                );
+                return true;
+            }
+        }
+    }
+
+    updateSettingsBlocked();
     loadSettings();
     saveSettings();
     loadTimeoutInput();
 
+    setInterval(updateSettingsBlocked, 5000);
+
+    // Setup toggle input change event listeners
     toggles.forEach((t) => {
         const el = document.getElementById(t.id);
         if (el !== null) {
@@ -306,5 +524,15 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
+
+    if (!JSON.parse(localStorage.getItem("passwordEnabled") || "false")) {
+        unlocked = true;
+        if (passwordPromptDivBackground !== null) {
+            (passwordPromptDivBackground as HTMLElement).style.display = "none";
+        }
+    } else if (passwordPromptDivBackground !== null) {
+        (passwordPromptDivBackground as HTMLElement).style.display = "";
+    }
+
     updateTheme();
 });

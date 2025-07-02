@@ -164,40 +164,8 @@ button[type="submit"]:hover {
     display: none;
 }
 
+
 /* PASSWORD PROMPT */
-#password-prompt-background {
-    background: var(--background);
-    /* backdrop-filter: blue(10px); */
-    height: 100vh;
-    width: 100vw;
-    top: 0px;
-    bottom: 0px;
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#password-prompt {
-    transition: background 0.3s;
-    background: var(--background);
-    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
-    border-radius: 10px;
-    padding: 10px;
-}
-
-#password-prompt h2 {
-    color: var(--foreground);
-    text-align: center;
-    margin-bottom: 0px;
-}
-
-#password-prompt p {
-    color: var(--foreground);
-    text-align: center;
-    margin-top: 0px;
-}
-
 input[type="password"] {
     padding: 8px 10px;
     margin: 0px 10px;
@@ -229,4 +197,11 @@ input[type="password"] {
     color: var(--error);
     font-size: 1.05em;
     text-align: center;
+}
+
+/* BLOCK SETTINGS PROMPT */
+#block-settings-prompt {
+    #confirm-button {
+        background-color: var(--error);
+    }
 }
