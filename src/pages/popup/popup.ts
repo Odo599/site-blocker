@@ -262,15 +262,6 @@ document.addEventListener("DOMContentLoaded", () => {
                                 ).toString() + " minutes until unblocked";
                         }
                     } else {
-                        // Runs when finished paused
-                        // console.log(site, "unpaused now");
-                        // sitePausedStatus.style.display = "none";
-                        // removeButton.style.display = "";
-                        // removeButton.addEventListener(
-                        //     "click",
-                        //     onBlacklistAddButtonClick
-                        // );
-                        // console.log(removeButton);
                         updateBlacklist();
                         clearInterval(intervalId);
                     }

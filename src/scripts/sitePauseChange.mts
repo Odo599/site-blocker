@@ -80,7 +80,7 @@ function addSite(siteObject: SitePausedStatus) {
 
     if (
         sitesPaused.some((site) => {
-            return (site.href = siteObject.href);
+            return site.href === siteObject.href;
         })
     ) {
         return false;
