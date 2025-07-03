@@ -5,6 +5,15 @@ import {
     readWhitelistedSites,
     writeWhitelistedSites,
 } from "../../scripts/storageApi.mjs";
+import { getDateInMinutes, getMinutesUntilDate } from "../../scripts/date.mjs";
+import {
+    getSiteStatus,
+    addSite,
+    removeSite,
+} from "../../scripts/sitePauseChange.mjs";
+console.log(getSiteStatus);
+console.log(addSite);
+console.log(removeSite);
 
 document.addEventListener("DOMContentLoaded", () => {
     const addSiteInput = document.getElementById(
@@ -38,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const themeSwitchButton = document.querySelector("#floating-button-theme");
 
-    //// Settings Pauses
+    // Settings Pauses
     const settingsPausedPromptDivBackground = document.querySelector(
         "#disabled-settings-page"
     ) as HTMLDivElement | null;
@@ -46,6 +55,27 @@ document.addEventListener("DOMContentLoaded", () => {
     const settingsPausedMinutesLeftStatus = document.querySelector(
         "#disabled-settings-page #minutes-left-span"
     );
+
+    // Pause site
+    const pausePromptDivBackground = document.querySelector(
+        "#pause-site-prompt-background"
+    ) as HTMLDivElement | null;
+
+    const pausePromptPageStatusSpan = document.querySelector(
+        "#pause-site-prompt-background #page-pause-status"
+    ) as HTMLSpanElement | null;
+
+    const pausePromptConfirmButton = document.querySelector(
+        "#pause-site-prompt-background #confirm-button"
+    );
+
+    const pausePromptCancelButton = document.querySelector(
+        "#pause-site-prompt-background #cancel-button"
+    );
+
+    const pausePromptMinutesInput = document.querySelector(
+        "#pause-site-prompt-background #minutes-input"
+    ) as HTMLInputElement | null;
 
     let unlocked = false;
     let blocked = false;
@@ -175,8 +205,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         let div = document.createElement("div");
         let prefixSpan = document.createElement("span");
-        let title = document.createElement("h2");
-        let remove = document.createElement("button");
+        let titleH2 = document.createElement("h2");
+        let removeButton = document.createElement("button");
+        let pauseButton = document.createElement("button");
+        let sitePausedStatus = document.createElement("p");
+
+        const isPaused = getSiteStatus(site);
 
         if (!isBlacklist) {
             prefixText = "Whitelisted: ";
@@ -186,24 +220,88 @@ document.addEventListener("DOMContentLoaded", () => {
         prefixSpan.textContent = prefixText;
         prefixSpan.className = prefixClass;
 
-        title.appendChild(prefixSpan);
-        title.innerHTML += site;
-        title.className = "site-title";
+        titleH2.appendChild(prefixSpan);
+        titleH2.innerHTML += site;
+        titleH2.className = "site-title";
 
-        remove.className = "site-remove";
-        remove.textContent = "x";
+        removeButton.className = "site-remove small-right-button";
+        removeButton.textContent = "x";
+
+        pauseButton.className = "site-pause small-right-button";
+        pauseButton.textContent = "pause";
+        pauseButton.addEventListener("click", () => {
+            openPauseSiteEdit(site);
+        });
+
+        let endMs = isPaused?.ends;
+
+        if (endMs && isPaused?.paused) {
+            let minutesToGo = getMinutesUntilDate(endMs);
+            sitePausedStatus.textContent =
+                Math.round(minutesToGo).toString() + " minutes until unblocked";
+        }
+
+        sitePausedStatus.className = "site-pause-status";
+        if (!isPaused || !isPaused.paused) {
+            sitePausedStatus.style.display = "none";
+        }
 
         if (isBlacklist) {
-            remove.addEventListener("click", onBlacklistRemoveClick);
+            if (!isPaused?.paused) {
+                removeButton.addEventListener("click", onBlacklistRemoveClick);
+            } else {
+                removeButton.style.display = "none";
+                let intervalId = setInterval(() => {
+                    let status = getSiteStatus(site);
+                    if (status?.paused) {
+                        let endMs = status.ends;
+                        if (endMs) {
+                            sitePausedStatus.textContent =
+                                Math.round(
+                                    getMinutesUntilDate(endMs)
+                                ).toString() + " minutes until unblocked";
+                        }
+                    } else {
+                        // Runs when finished paused
+                        // console.log(site, "unpaused now");
+                        // sitePausedStatus.style.display = "none";
+                        // removeButton.style.display = "";
+                        // removeButton.addEventListener(
+                        //     "click",
+                        //     onBlacklistAddButtonClick
+                        // );
+                        // console.log(removeButton);
+                        updateBlacklist();
+                        clearInterval(intervalId);
+                    }
+                }, 500);
+            }
         } else {
-            remove.addEventListener("click", onWhitelistRemoveClick);
+            removeButton.addEventListener("click", onWhitelistRemoveClick);
         }
 
         div.className = "site-item";
-        div.appendChild(title);
-        div.appendChild(remove);
+        div.appendChild(titleH2);
+        if (isBlacklist) {
+            div.appendChild(sitePausedStatus);
+            if (!isPaused?.paused) {
+                div.appendChild(pauseButton);
+            }
+        }
+        div.appendChild(removeButton);
 
         return div;
+    }
+
+    function openPauseSiteEdit(site: string) {
+        console.log(site);
+        if (pausePromptDivBackground !== null) {
+            pausePromptDivBackground.style.display = "";
+        }
+        console.log(pausePromptDivBackground);
+        if (pausePromptPageStatusSpan !== null) {
+            pausePromptPageStatusSpan.textContent = site;
+        }
     }
 
     function toggleTheme() {
@@ -212,6 +310,45 @@ document.addEventListener("DOMContentLoaded", () => {
         );
         localStorage.setItem("darkmode", JSON.stringify(!isCurrentlyDark));
         updateTheme();
+    }
+
+    if (pausePromptCancelButton) {
+        pausePromptCancelButton.addEventListener("click", () => {
+            if (pausePromptDivBackground) {
+                pausePromptDivBackground.style.display = "none";
+            }
+        });
+    }
+
+    if (pausePromptConfirmButton) {
+        pausePromptConfirmButton.addEventListener("click", () => {
+            if (pausePromptMinutesInput) {
+                const minutesStr = pausePromptMinutesInput.value;
+                const minutesFloat = parseFloat(minutesStr);
+
+                if (!isNaN(minutesFloat)) {
+                    if (pausePromptPageStatusSpan) {
+                        if (pausePromptPageStatusSpan.textContent) {
+                            removeSite(pausePromptPageStatusSpan.textContent);
+                            addSite({
+                                href: pausePromptPageStatusSpan.textContent,
+                                ends: getDateInMinutes(minutesFloat),
+                            });
+                            updateBlacklist();
+                            if (pausePromptDivBackground) {
+                                pausePromptDivBackground.style.display = "none";
+                            }
+                        }
+                    }
+                } else {
+                    console.log(
+                        "[pausePromptConfirmButton]:",
+                        minutesStr,
+                        "could not be converted to float."
+                    );
+                }
+            }
+        });
     }
 
     // Adds click event listener to add to blacklist button

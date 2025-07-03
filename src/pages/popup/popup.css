@@ -95,8 +95,7 @@ h3 {
     color: var(--error);
 }
 
-.site-remove {
-    background: var(--error);
+.small-right-button {
     color: var(--background);
     border: none;
     border-radius: 4px;
@@ -111,8 +110,20 @@ h3 {
     align-items: center;
     justify-content: center;
 }
+
+.site-remove {
+    background: var(--error);
+}
+
 .site-remove:hover {
     background: #c0392b;
+}
+
+.site-pause {
+    background: var(--primary);
+}
+
+.site-pause-status {
 }
 
 .floating-button {
@@ -325,4 +336,8 @@ input[type="password"] {
     color: var(--error);
     font-size: 1.05em;
     text-align: center;
+}
+
+#confirm-button {
+    background-color: var(--error);
 }

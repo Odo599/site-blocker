@@ -100,6 +100,32 @@
             </div>
         </div>
 
+        <div
+            id="pause-site-prompt-background"
+            class="prompt-background"
+            style="display: none;"
+        >
+            <div id="pause-site-prompt" class="prompt">
+                <h2>Would you like to block editing of this page:</h2>
+                <p>
+                    <span id="page-pause-status">undefined</span>
+                </p>
+                <input
+                    id="minutes-input"
+                    class="full-input"
+                    placeholder="Enter minutes"
+                />
+                <div id="confirm-div">
+                    <button class="half-button" id="cancel-button">
+                        Cancel
+                    </button>
+                    <button class="half-button" id="confirm-button">
+                        Confirm
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <script src="../../../dist/themes/themes.js"></script>
         <script src="../../../dist/pages/popup/popup.js" type="module"></script>
     </body>
