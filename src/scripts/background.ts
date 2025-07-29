@@ -81,7 +81,7 @@ browser.webRequest.onBeforeRequest.addListener(
             !matchesWhitelisted
         ) {
             const customRedirect = JSON.parse(
-                localStorage.getItem("customRedirectEnabled") || ""
+                localStorage.getItem("customRedirectEnabled") || "false"
             );
             let redirectHref;
             if (customRedirect) {

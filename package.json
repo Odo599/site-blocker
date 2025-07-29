@@ -1,7 +1,7 @@
 {
     "name": "site-blocker",
     "version": "1.0.0",
-    "description": "It's a Firefox add-on that blocks certain websites of your choice. It's quite simple.",
+    "description": "It's a Firefox add-on that blocks certain websites of your choice.",
     "main": "index.js",
     "scripts": {
         "build": "tsc",
